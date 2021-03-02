@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
-
+using System.Collections.Generic;
+using System.Collections;
 
 namespace LoopThroughFiles
 {
@@ -24,15 +25,17 @@ namespace LoopThroughFiles
             // Получаем список файлов в каталоге
             FileInfo[] files = GetFileList(directoryName);
 
-            foreach(var file in files)
+            IEnumerator iterator = files.GetEnumerator();
+            while( iterator.MoveNext() )
             {
-                Console.WriteLine("Имя файла {0}", file.FullName);
+                Console.WriteLine("Имя файла {0}", iterator.Current);
                 // вывод дампа файлав в 16 исчеслении
-                DumpHex(file);
+                DumpHex((FileInfo)iterator.Current);
                 // Ожидание перед выводом следующего файла .
                 Console.WriteLine("\nHaжмитe <Enter> для продолжения");
                 Console.ReadLine();
             }
+            iterator.Reset();
             // Работа сделана !
             Console.WriteLine("Фaйлoв больше нет");
             // Ожидание подтверждения пользователя
